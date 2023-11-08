@@ -4,9 +4,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.pipeline import Pipeline
+import warnings
 
-# Load the Titanic dataset (replace 'train.csv' with your dataset file)
-data = pd.read_csv('tested.csv')
+
+# Load the Titanic dataset 
+data = pd.read_csv('TASK1/tested.csv')
 
 # Encode categorical variables
 data = pd.get_dummies(data, columns=['Sex', 'Embarked'], drop_first=True)
@@ -31,6 +33,9 @@ rf_classifier.fit(X_train, y_train)
 # Make predictions on the test set
 y_pred = rf_classifier.predict(X_test)
 
+# Ignore the UserWarning
+warnings.filterwarnings("ignore", category=UserWarning)
+
 # Evaluate the model
 accuracy = accuracy_score(y_test, y_pred)
 conf_matrix = confusion_matrix(y_test, y_pred)
@@ -40,12 +45,11 @@ print(f'Accuracy: {accuracy}')
 print('Confusion Matrix:\n', conf_matrix)
 print('Classification Report:\n', classification_rep)
 
-# Sample passenger data for prediction (replace with actual data)
+# Sample passenger data for prediction 
 sample_passenger_data = [
     [3, 25, 0, 0, 7.25, 1, 0, 1],  # Feature values for passenger 1
     [1, 35, 1, 0, 53.1, 0, 0, 0],  # Feature values for passenger 2
     [2, 22.5, 2, 1, 61.45, 0, 0, 0]  # Feature values for passenger 3
-    # Add more passengers' feature values here
 ]
 
 # Predict whether each passenger survived (1 for survived, 0 for not survived)
@@ -57,3 +61,4 @@ for i, prediction in enumerate(predictions):
         print(f"Passenger {i + 1}: Survived")
     else:
         print(f"Passenger {i + 1}: Did not survive")
+
